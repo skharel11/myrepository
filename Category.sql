@@ -61,3 +61,58 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [dbo].[usp_Category_AddUpdate]
+@CategoryID		INT,
+@Title			NVARCHAR(50),
+@Detail			NVARCHAR(MAX),
+@IsActive		BIT,
+@PortalID		INT,
+@UserModuleID	INT,
+@CultureCode	NVARCHAR(50),
+@Username		NVARCHAR(50)
+AS
+BEGIN
+
+	IF @CategoryID >0
+	BEGIN
+		UPDATE dbo.tbl_Category
+		SET
+			Title = @Title,
+			Detail = @Detail,
+			IsActive = @IsActive,
+			IsModified = 1,
+			UpdateOn = GETDATE(),
+			UpdatedBy = @Username
+		WHERE
+			CategoryID = @CategoryID
+	END
+    ELSE
+	BEGIN
+		INSERT INTO dbo.tbl_Category
+		        ( Title ,
+		          Detail ,
+		          IsActive ,
+		          AddedOn ,
+		          AddedBy ,
+		          PortalID ,
+		          UserModuleID ,
+		          CultureCode
+		        )
+		VALUES  ( 
+					@Title,
+					@Detail,
+					@IsActive,
+					GETDATE(),
+					@Username,
+					@PortalID,
+					@UserModuleID,
+					@CultureCode
+		        )
+    END    
+
+END
+	
+GO
+
+
+
