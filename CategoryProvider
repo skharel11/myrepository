@@ -1,0 +1,57 @@
+using SageFrame.Web.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SageFrame.Category
+{
+    public class CategoryProvider
+    {
+        public List<CategoryInfo> GetAllCategory(int portalID, int userModuleID, string cultureCode)
+        {
+            try
+            {
+                List<KeyValuePair<string, object>> param = new List<KeyValuePair<string, object>>();
+                param.Add(new KeyValuePair<string, object>("@PortalID", portalID));
+                param.Add(new KeyValuePair<string, object>("@UserModuleID", userModuleID));
+                param.Add(new KeyValuePair<string, object>("@CultureCode", cultureCode));
+
+                SQLHandler handler = new SQLHandler();
+                return handler.ExecuteAsList<CategoryInfo>("usp_Category_GetAll", param);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+
+
+        public void CategoryAddUpdate(CategoryInfo objCategory)
+        {
+            try
+            {
+                List<KeyValuePair<string, object>> param = new List<KeyValuePair<string, object>>();
+                param.Add(new KeyValuePair<string, object>("@CategoryID", objCategory.CategoryID));
+                param.Add(new KeyValuePair<string, object>("@Title", objCategory.Title));
+                param.Add(new KeyValuePair<string, object>("@Detail", objCategory.Detail));
+                param.Add(new KeyValuePair<string, object>("@IsActive", objCategory.IsActive));
+                param.Add(new KeyValuePair<string, object>("@PortalID", objCategory.PortalID));
+                param.Add(new KeyValuePair<string, object>("@UserModuleID", objCategory.UserModuleID));
+                param.Add(new KeyValuePair<string, object>("@CultureCode", objCategory.CultureCode));
+                param.Add(new KeyValuePair<string, object>("@Username", objCategory.Username));
+
+                SQLHandler handler = new SQLHandler();
+                handler.ExecuteNonQuery("usp_Category_AddUpdate", param);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+    }
+}
