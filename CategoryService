@@ -1,0 +1,30 @@
+<%@ WebService Language="C#" Class="CategoryWebService" %>
+
+using System;
+using System.Web;
+using System.Web.Services;
+using System.Web.Services.Protocols;
+using System.Collections.Generic;
+using SageFrame.Category;
+
+[WebService(Namespace = "http://tempuri.org/")]
+[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+// To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
+[System.Web.Script.Services.ScriptService]
+public class CategoryWebService : System.Web.Services.WebService
+{
+
+    [WebMethod]
+    public List<CategoryInfo> GetAllCategory(int portalID, int userModuleID, string cultureCode)
+    {
+        CategoryController cont = new CategoryController();
+        return cont.GetAllCategory(portalID, userModuleID, cultureCode);
+    }
+
+    [WebMethod]
+    public void AddUpdateCategory(CategoryInfo objCategory)
+    {
+            CategoryController cont = new CategoryController();
+            cont.CategoryAddUpdate(objCategory);
+    }
+}
