@@ -1,0 +1,7 @@
+USE 
+GO
+
+IF OBJECT_ID('') IS NOT NULL
+  DROP TABLE 
+GO
+
